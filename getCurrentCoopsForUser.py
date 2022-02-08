@@ -3,7 +3,7 @@ import ei_pb2
 import base64
 from google.protobuf.json_format import MessageToJson
 
-user_id = 'EI4760863940018176'
+user_id = 'EI1234567890123456'
 
 first_contact_request = ei_pb2.EggIncFirstContactRequest()
 first_contact_request.ei_user_id = user_id
