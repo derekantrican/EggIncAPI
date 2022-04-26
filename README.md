@@ -4,4 +4,4 @@ This is an example of how to query the status of an [Egg, Inc](https://egg-inc.f
 
 ## Usage
 
-Clone the repo and run `python api-test.py` (you may need to `pip install` a couple things like `protobuf`). It will spit out the current co-op status details as json. Modify for your needs.
+Clone the repo and run `python getCoopStatus.py` (you may need to `pip install` a couple things like `protobuf`). It will spit out the current co-op status details as json. Modify for your needs.
