@@ -7,6 +7,35 @@ using Google.Protobuf;
 
 await GetCoopStatus("shipping-surge", "shippingrun");
 
+async Task GetCurrentCoopsForUser(string userId)
+{
+    EggIncFirstContactRequest firstContactRequest = new EggIncFirstContactRequest();
+    firstContactRequest.EiUserId = userId;
+    firstContactRequest.ClientVersion = 36;
+
+    byte[] bytes;
+    using (var stream = new MemoryStream())
+    {
+        firstContactRequest.WriteTo(stream);
+        bytes = stream.ToArray();
+    }
+
+    string response = await PostRequest("https://wasmegg.zw.workers.dev/?url=https://www.auxbrain.com/ei/first_contact", new FormUrlEncodedContent(new Dictionary<string, string>
+    {
+        { "data", Convert.ToBase64String(bytes) }
+    }));
+
+    AuthenticatedMessage authenticatedMessage = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
+
+    EggIncFirstContactResponse firstContactResponse = EggIncFirstContactResponse.Parser.ParseFrom(authenticatedMessage.Message);
+    foreach (var contract in firstContactResponse.Backup.Contracts.Contracts)
+    {
+        Console.WriteLine("current coop details: ");
+        Console.WriteLine($"  contract_id: {contract.Contract.Identifier}");
+        Console.WriteLine($"  coop_id: {contract.CoopIdentifier}");
+    }
+}
+
 async Task GetCoopStatus(string contractId, string coopId)
 {
     ContractCoopStatusRequest coopStatusRequest = new ContractCoopStatusRequest();
