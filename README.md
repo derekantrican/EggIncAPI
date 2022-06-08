@@ -24,4 +24,4 @@ For questions about the API & how to use it, I suggest you join us at https://ei
 
 ## Contributing
 
-I do accept Pull Requests if you want to add more examples (even in other languages)!
+I do accept Pull Requests if you want to add more examples (even in other languages)! Please make sure that if you add a folder for a new language it is more-or-less self-contained (ie has the protobuf-translated files for that language).
