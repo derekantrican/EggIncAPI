@@ -15,3 +15,13 @@ Clone the repo, cd to the `python` folder, and run `python getCoopStatus.py` (yo
 *Note that this is built on .NET 6 so it may look different than C# you're used to as .NET 6 has implicit usings, namespace, & Main*
 
 Clone the repo, cd to the `csharp` folder, and run `dotnet run`. Modify `Program.cs` for your needs.
+
+
+## Questions
+
+For questions about the API & how to use it, I suggest you join us at https://ei.tcl.sh/discord
+
+
+## Contributing
+
+I do accept Pull Requests if you want to add more examples (even in other languages)!
