@@ -6,6 +6,7 @@ import base64
 
 user_id = 'EI1234567890123456'
 
+# Thanks to bobobbers#1992 for the examples
 def sha256(bytes_obj):
     h = hashlib.sha256()
     h.update(bytes_obj)
