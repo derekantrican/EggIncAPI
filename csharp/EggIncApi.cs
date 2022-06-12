@@ -21,7 +21,7 @@ public class EggIncApi
         firstContactRequest.EiUserId = userId;
         firstContactRequest.ClientVersion = CLIENTVERSION;
 
-        return await MakeEggIncApiRequest("first_contact", firstContactRequest, EggIncFirstContactResponse.Parser.ParseFrom);
+        return await MakeEggIncApiRequest("bot_first_contact", firstContactRequest, EggIncFirstContactResponse.Parser.ParseFrom, false);
     }
 
     public static async Task<PeriodicalsResponse> GetPeriodicals(string userId)
@@ -33,7 +33,7 @@ public class EggIncApi
         return await MakeEggIncApiRequest("get_periodicals", getPeriodicalsRequest, PeriodicalsResponse.Parser.ParseFrom);
     }
 
-    private static async Task<T> MakeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod)
+    private static async Task<T> MakeEggIncApiRequest<T>(string endpoint, IMessage data, Func<ByteString, T> parseMethod, bool authenticated = true)
     {
         byte[] bytes;
         using (var stream = new MemoryStream())
@@ -48,10 +48,15 @@ public class EggIncApi
             { "data", Convert.ToBase64String(bytes) }
         }));
 
-        //Todo: I don't know if we have to check whether the response is an AuthenticatedMessage or not
-        AuthenticatedMessage authenticatedMessage = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
-
-        return parseMethod(authenticatedMessage.Message);
+        if (authenticated)
+        {
+            AuthenticatedMessage authenticatedMessage = AuthenticatedMessage.Parser.ParseFrom(Convert.FromBase64String(response));
+            return parseMethod(authenticatedMessage.Message);
+        }
+        else
+        {
+            return parseMethod(ByteString.CopyFrom(Convert.FromBase64String(response)));
+        }
     }
 
     public static async Task<bool> IsCoopContractOnTrack(LocalContract contract)
