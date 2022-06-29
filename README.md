@@ -1,6 +1,6 @@
 # EggIncAPI
 
-This is an example of how to query the status of an [Egg, Inc](https://egg-inc.fandom.com/wiki/Egg,_Inc.) co-op using the API by fanaticscripter: https://github.com/fanaticscripter/Egg
+This is an example of how to query the status of an [Egg, Inc](https://egg-inc.fandom.com/wiki/Egg,_Inc.) co-op, contract, etc using the API (made by referencing the code by fanaticscripter: https://github.com/fanaticscripter/Egg )
 
 ## Usage
 
