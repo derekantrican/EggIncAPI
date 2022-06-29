@@ -42,8 +42,7 @@ public class EggIncApi
             bytes = stream.ToArray();
         }
 
-        string baseUrl = "https://wasmegg.zw.workers.dev/?url="; 
-        string response = await PostRequest($"{baseUrl}https://www.auxbrain.com/ei/{endpoint}", new FormUrlEncodedContent(new Dictionary<string, string>
+        string response = await PostRequest($"https://www.auxbrain.com/ei/{endpoint}", new FormUrlEncodedContent(new Dictionary<string, string>
         {
             { "data", Convert.ToBase64String(bytes) }
         }));
