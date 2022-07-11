@@ -6,11 +6,12 @@ namespace EggIncApi;
 public class EggIncApi
 {
     private const int CLIENTVERSION = 40;
-    public static async Task<ContractCoopStatusResponse> GetCoopStatus(string contractId, string coopId)
+    public static async Task<ContractCoopStatusResponse> GetCoopStatus(string contractId, string coopId, string userId)
     {
         ContractCoopStatusRequest coopStatusRequest = new ContractCoopStatusRequest();
         coopStatusRequest.ContractIdentifier = contractId;
         coopStatusRequest.CoopIdentifier = coopId;
+        coopStatusRequest.UserId = userId;
 
         return await MakeEggIncApiRequest("coop_status", coopStatusRequest, ContractCoopStatusResponse.Parser.ParseFrom);
     }
@@ -61,7 +62,7 @@ public class EggIncApi
 
     public static async Task<bool> IsCoopContractOnTrack(LocalContract contract)
     {
-        var coopStatusResponse = await EggIncApi.GetCoopStatus(contract.Contract.Identifier, contract.CoopIdentifier);
+        var coopStatusResponse = await EggIncApi.GetCoopStatus(contract.Contract.Identifier, contract.CoopIdentifier, contract.CoopUserId);
         var totalEggsPerHour = coopStatusResponse.Contributors.Sum(c => c.ContributionRate * 3600);
         var targetAmount = contract.Contract.Goals.Last().TargetAmount;
         var requiredEggsPerHour = ((targetAmount - coopStatusResponse.TotalAmount) / coopStatusResponse.SecondsRemaining) * 3600;

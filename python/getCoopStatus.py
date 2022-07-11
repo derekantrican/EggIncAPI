@@ -5,10 +5,12 @@ from google.protobuf.json_format import MessageToJson
 
 contract_id = 'shipping-surge'
 coop_id = 'shippingrun'
+user_id = 'EI1234567890123456'
 
 coop_status_request = ei_pb2.ContractCoopStatusRequest()
 coop_status_request.contract_identifier = contract_id
 coop_status_request.coop_identifier = coop_id
+coop_status_request.user_id = user_id
 
 url = 'https://wasmegg.zw.workers.dev/?url=https://www.auxbrain.com/ei/coop_status'
 data = { 'data' : base64.b64encode(coop_status_request.SerializeToString()).decode('utf-8') }

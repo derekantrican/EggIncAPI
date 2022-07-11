@@ -1,4 +1,4 @@
-﻿var coopStatus = await EggIncApi.EggIncApi.GetCoopStatus("shipping-surge", "shippingrun");
+﻿var coopStatus = await EggIncApi.EggIncApi.GetCoopStatus("shipping-surge", "shippingrun", "EI1234567890123456");
 
 // await GetCurrentContractsForUserWithOnTrack("EI1234567890123456");
 

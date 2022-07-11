@@ -25,6 +25,7 @@ for contract in first_contact_response.backup.contracts.contracts:
         coop_status_request = ei_pb2.ContractCoopStatusRequest()
         coop_status_request.contract_identifier = contract.contract.identifier
         coop_status_request.coop_identifier = contract.coop_identifier
+        coop_status_request.user_id = user_id
 
         url = 'https://wasmegg.zw.workers.dev/?url=https://www.auxbrain.com/ei/coop_status'
         data = { 'data' : base64.b64encode(coop_status_request.SerializeToString()).decode('utf-8') }
