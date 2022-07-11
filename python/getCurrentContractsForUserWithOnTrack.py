@@ -8,7 +8,7 @@ first_contact_request = ei_pb2.EggIncFirstContactRequest()
 first_contact_request.ei_user_id = user_id
 first_contact_request.client_version = 36
 
-url = 'https://wasmegg.zw.workers.dev/?url=https://www.auxbrain.com/ei/bot_first_contact'
+url = 'https://www.auxbrain.com/ei/bot_first_contact'
 data = { 'data' : base64.b64encode(first_contact_request.SerializeToString()).decode('utf-8') }
 response = requests.post(url, data = data)
 
@@ -27,7 +27,7 @@ for contract in first_contact_response.backup.contracts.contracts:
         coop_status_request.coop_identifier = contract.coop_identifier
         coop_status_request.user_id = user_id
 
-        url = 'https://wasmegg.zw.workers.dev/?url=https://www.auxbrain.com/ei/coop_status'
+        url = 'https://www.auxbrain.com/ei/coop_status'
         data = { 'data' : base64.b64encode(coop_status_request.SerializeToString()).decode('utf-8') }
         response = requests.post(url, data = data)
 
