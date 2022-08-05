@@ -17,6 +17,11 @@ Clone the repo, cd to the `python` folder, and run `python getCoopStatus.py` (yo
 Clone the repo, cd to the `csharp` folder, and run `dotnet run`. Modify `Program.cs` for your needs.
 
 
+## Other Languages
+
+While I only have examples for languages I'm familiar with, [@elgranjero](https://github.com/elgranjero) has created a repo with up-to-date language implementations of the protobufs: https://github.com/elgranjero/EggIncProtos
+
+
 ## Questions
 
 For questions about the API & how to use it, I suggest you join us at https://ei.tcl.sh/discord
