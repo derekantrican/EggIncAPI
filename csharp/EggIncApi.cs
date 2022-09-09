@@ -5,7 +5,7 @@ using static Ei.Backup.Types;
 namespace EggIncApi;
 public class EggIncApi
 {
-    private const int CLIENTVERSION = 40;
+    private const int CLIENTVERSION = 42;
     public static async Task<ContractCoopStatusResponse> GetCoopStatus(string contractId, string coopId, string userId)
     {
         ContractCoopStatusRequest coopStatusRequest = new ContractCoopStatusRequest();

@@ -6,7 +6,7 @@ user_id = 'EI1234567890123456'
 
 first_contact_request = ei_pb2.EggIncFirstContactRequest()
 first_contact_request.ei_user_id = user_id
-first_contact_request.client_version = 36
+first_contact_request.client_version = 42
 
 url = 'https://www.auxbrain.com/ei/bot_first_contact'
 data = { 'data' : base64.b64encode(first_contact_request.SerializeToString()).decode('utf-8') }
