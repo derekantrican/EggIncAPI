@@ -359,8 +359,65 @@ public class EggIncApi
         return internalHatcheryRateArtifactMultiplier * internalHatcheryRateResearchMultiplier * 4; //Assume 4 habs (this is what wasmegg does)
     }
 
-    public static double CalculateHabSpace(Simulation farm)
+    public static double CalculateHabSpace(Simulation farm, Backup backup)
     {
+        //ARTIFACTS
+        Dictionary<ArtifactSpec.Types.Name, double[][]> artifactMultipliers = new Dictionary<ArtifactSpec.Types.Name, double[][]>
+        {
+            { 
+                ArtifactSpec.Types.Name.OrnateGusset, 
+                new[]
+                {
+                    new[] { 0.05 }, //Plain
+                    new[] { 0.1, 0.12 }, //Ornate
+                    new[] { 0.15, 0.16 }, //Distegguished
+                    new[] { 0.2, 0.0, 0.22, 0.25, 0.4 }, //Jeweled (note: according to the wiki, "rare" apparently isn't possible)
+                }
+            },
+            { 
+                ArtifactSpec.Types.Name.ClarityStone, 
+                new[]
+                {
+                    //Fragment cannot be set (no level)
+                    new[] { 0.25 }, //Regular
+                    new[] { 0.5 }, //Eggsquisite
+                    new[] { 1.0 }, //Eggceptional
+                }
+            },
+        };
+
+        var artifactInventory = backup.ArtifactsDb.InventoryItems;
+        var contractFarmArtifactSlots = backup.ArtifactsDb.ActiveArtifactSets[0].Slots;
+
+        double habCapacityArtifactMultiplier = 1;
+        foreach (var artifactSlot in contractFarmArtifactSlots)
+        {
+            if (artifactSlot.Occupied)
+            {
+                var artifact = artifactInventory.FirstOrDefault(a => a.ItemId == artifactSlot.ItemId);
+                if (artifact.Artifact.Spec.Name == ArtifactSpec.Types.Name.OrnateGusset)
+                {
+                    var artifactMultiplier = artifactMultipliers[artifact.Artifact.Spec.Name][(int)artifact.Artifact.Spec.Level][(int)artifact.Artifact.Spec.Rarity];
+
+                    if (farm.EggType == Ei.Egg.Enlightenment)
+                    {
+                        double clarityStoneMultiplier = 0;
+                        foreach (var stone in artifact.Artifact.Stones)
+                        {
+                            if (stone.Name == ArtifactSpec.Types.Name.ClarityStone)
+                            {
+                                clarityStoneMultiplier += artifactMultipliers[stone.Name][(int)stone.Level][0];
+                            }
+                        }
+
+                        artifactMultiplier *= clarityStoneMultiplier;
+                    }
+
+                    habCapacityArtifactMultiplier *= 1 + artifactMultiplier;
+                }
+            }
+        }
+
         Dictionary<string, double> habCapacityResearchMultipliersPerLevel = new Dictionary<string, double>
         {
             { "hab_capacity1", 0.05 },
@@ -378,7 +435,7 @@ public class EggIncApi
             }
         }
 
-        return Math.Round(habCapacityResearchMultiplier * 4 * 6e8); //Assumes 4 habs and all Chicken Universes
+        return Math.Round(habCapacityArtifactMultiplier * habCapacityResearchMultiplier * 4 * 6e8); //Assumes 4 habs and all Chicken Universes
     }
 
     private static async Task<string> PostRequest(string url, FormUrlEncodedContent json)
